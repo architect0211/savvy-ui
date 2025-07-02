@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Savvy UI | Sov B</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 2em; background: #0e0e0e; color: #f0f0f0; }
+    input, button { padding: 0.5em; font-size: 1em; }
+    #responseBox { margin-top: 1em; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>🧠 Sov B - Buddy Engine UI</h1>
+  <input type="text" id="inputMessage" placeholder="Type your message..." style="width: 60%;">
+  <button onclick="sendMessage()">Send</button>
+  <div id="responseBox"></div>
+
+  <script>
+    async function sendMessage() {
+      const msg = document.getElementById('inputMessage').value;
+      if (!msg) return;
+
+      const resBox = document.getElementById('responseBox');
+      resBox.innerText = "Waiting for Sov B...";
+
+      try {
+        const response = await fetch('https://buddy-engine.onrender.com/api/talk', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg })
+        });
+
+        const data = await response.json();
+        resBox.innerText = "🗣️ " + data.reply;
+      } catch (err) {
+        resBox.innerText = "⚠️ Error talking to Sov B.";
+      }
+    }
+  </script>
+</body>
+</html>
